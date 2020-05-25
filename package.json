@@ -7,12 +7,11 @@
     "url": "https://github.com/ibm-messaging/event-streams-samples"
   },
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./app.js 'broker-0-sjcd5kks7gp8jnjl.kafka.svc04.us-south.eventstreams.cloud.ibm.com:9093,broker-1-sjcd5kks7gp8jnjl.kafka.svc04.us-south.eventstreams.cloud.ibm.com:9093,broker-2-sjcd5kks7gp8jnjl.kafka.svc04.us-south.eventstreams.cloud.ibm.com:9093,broker-3-sjcd5kks7gp8jnjl.kafka.svc04.us-south.eventstreams.cloud.ibm.com:9093,broker-4-sjcd5kks7gp8jnjl.kafka.svc04.us-south.eventstreams.cloud.ibm.com:9093,broker-5-sjcd5kks7gp8jnjl.kafka.svc04.us-south.eventstreams.cloud.ibm.com:9093' LLEp091lh5F38AlCuCzknugOkzFAwpDulR0yP5TO_ABj /etc/ssl/certs"
   },
   "author": "IBM",
   "license": "Apache-2.0",
-  "maintainers": [
-    {
+  "maintainers": [{
       "name": "mimaison",
       "email": "mickael.maison@uk.ibm.com"
     },

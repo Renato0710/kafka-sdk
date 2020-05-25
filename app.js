@@ -19,13 +19,12 @@
  */
 var Kafka = require('node-rdkafka');
 var ProducerLoop = require('./producerLoop.js');
-var ConsumerLoop = require('./consumerLoop.js');
 var fs = require('fs');
 
 var opts = {};
 var topicName = 'Logs';
 var runProducer = true;
-var producer, consumer, admin;
+var producer, admin;
 var services;
 
 
@@ -56,13 +55,6 @@ if (!fs.existsSync(opts.calocation)) {
     console.error('Error - Failed to access <cert_location> : ' + opts.calocation);
     process.exit(-1);
 }
-
-// In local mode the app can run only the producer or only the consumer
-if (process.argv.length === 6) {
-    if ('-producer' === process.argv[5])
-        runConsumer = false;
-}
-
 
 console.log("Kafka Endpoints: " + opts.brokers);
 
