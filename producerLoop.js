@@ -58,21 +58,23 @@ exports.buildProducer = function (Kafka, producer_opts, topicName, shutdown) {
                     // Do whatever you want to do with the file
                     var logs = fs.readFileSync(`${directoryPath}/${file}`);
                     logs = JSON.parse(logs);
-                    logs.forEach(log => {
-                        var message = new Buffer(JSON.stringify(log));
-                        var key = 'Key' + counter;
-                        // Short sleep for flow control in this sample app
-                        // to make the output easily understandable
-                        try {
-                            producer.produce(topic, partition, message, key);
-                            counter++;
-                            fs.unlink()
-                        } catch (err) {
-                            console.error('Failed sending message ' + message);
-                            console.error(err);
-                        }
-                        fs.unlinkSync(`${directoryPath}/${file}`)
-                    });
+                    if (logs.length != 0) {
+                        logs.forEach(log => {
+                            var message = new Buffer(JSON.stringify(log));
+                            var key = 'Key' + counter;
+                            // Short sleep for flow control in this sample app
+                            // to make the output easily understandable
+                            try {
+                                producer.produce(topic, partition, message, key);
+                                counter++;
+                                fs.unlink()
+                            } catch (err) {
+                                console.error('Failed sending message ' + message);
+                                console.error(err);
+                            }
+                        });
+                    }
+                    fs.unlinkSync(`${directoryPath}/${file}`)
                 });
             }
             setTimeout(function () {
