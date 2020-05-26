@@ -22,7 +22,7 @@ var ProducerLoop = require('./producerLoop.js');
 var fs = require('fs');
 
 var opts = {};
-var topicName = 'Logs';
+var topicName = 'Logss';
 var runProducer = true;
 var producer, admin;
 var services;
@@ -95,7 +95,7 @@ process.on('SIGINT', function () {
 
 // Config options common to all clients
 var driver_options = {
-    //'debug': 'all',
+    'debug': 'all',
     'metadata.broker.list': opts.brokers,
     'security.protocol': 'sasl_ssl',
     'ssl.ca.location': opts.calocation,
@@ -103,11 +103,12 @@ var driver_options = {
     'sasl.username': 'token',
     'sasl.password': opts.api_key,
     'broker.version.fallback': '0.10.0', // still needed with librdkafka 0.11.6 to avoid fallback to 0.9.0
-    'log.connection.close': false
+    'log.connection.close': false,
+    'api.version.request': true,
 };
 
 var admin_opts = {
-    'client.id': 'kafka-nodejs-console-sample-admin',
+    'client.id': 'kafka-admin',
 };
 
 // Add the common options to client and producer
@@ -121,7 +122,7 @@ console.log('Creating the topic ' + topicName + ' with AdminClient');
 admin = Kafka.AdminClient.create(admin_opts);
 admin.connect();
 console.log("AdminClient connected");
-
+console.log(admin);
 admin.createTopic({
         topic: topicName,
         num_partitions: 1,
