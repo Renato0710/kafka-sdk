@@ -95,7 +95,7 @@ process.on('SIGINT', function () {
 
 // Config options common to all clients
 var driver_options = {
-    'debug': 'all',
+    //'debug': 'all',
     'metadata.broker.list': opts.brokers,
     'security.protocol': 'sasl_ssl',
     'ssl.ca.location': opts.calocation,
