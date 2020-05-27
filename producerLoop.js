@@ -74,7 +74,11 @@ exports.buildProducer = function (Kafka, producer_opts, topicName, shutdown) {
                             }
                         });
                     }
-                    fs.unlinkSync(`${directoryPath}/${file}`)
+                    fs.unlink(`${directoryPath}/${file}`, function (err) {
+    			if (err) throw err;
+    			// if no error, file has been deleted successfully
+    			console.log(`File ${file} deleted!`);
+		    }); 
                 });
             }
             setTimeout(function () {

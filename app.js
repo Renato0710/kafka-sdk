@@ -1,28 +1,9 @@
-/**
- * Copyright 2015-2018 IBM
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-/**
- * Licensed Materials - Property of IBM
- * © Copyright IBM Corp. 2015-2018
- */
 var Kafka = require('node-rdkafka');
 var ProducerLoop = require('./producerLoop.js');
 var fs = require('fs');
 
 var opts = {};
-var topicName = 'Logss';
+var topicName = "Logs";
 var runProducer = true;
 var producer, admin;
 var services;
@@ -122,7 +103,6 @@ console.log('Creating the topic ' + topicName + ' with AdminClient');
 admin = Kafka.AdminClient.create(admin_opts);
 admin.connect();
 console.log("AdminClient connected");
-console.log(admin);
 admin.createTopic({
         topic: topicName,
         num_partitions: 1,
