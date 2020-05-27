@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require("fs");
 const directoryPath = path.join(__dirname, 'logs');
 
-function sendMessages() {
+function sendMessages(counter, topic, partition) {
 
     fs.readdir(directoryPath, function (err, files) {
         //handling error
@@ -13,15 +13,15 @@ function sendMessages() {
             var timeout = 600000
             //listing all files using forEach
             files.forEach(function (file) {
-                // Do whatever you want to do with the file
                 var logs = fs.readFileSync(`${directoryPath}/${file}`);
                 logs = JSON.parse(logs);
-                logs.forEach(log => {
-                    var message = new Buffer(JSON.stringify(log));
-                    console.log(log)
-                    // Short sleep for flow control in this sample app
-                    // to make the output easily understandable
-                });
+                if (logs.length != 0) {
+                    logs.forEach(log => {
+                        var message = new Buffer(JSON.stringify(log));
+                        var key = 'Key' + counter;
+                        console.log(log);
+                    });
+                }
                 fs.unlink(`${directoryPath}/${file}`, function (err) {
                     if (err) throw err;
                     // if no error, file has been deleted successfully
