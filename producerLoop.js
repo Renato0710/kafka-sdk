@@ -45,20 +45,19 @@ exports.buildProducer = function (Kafka, producer_opts, topicName, shutdown) {
     });
 
     function sendMessages(counter, topic, partition) {
-
+        var timeout = 600000
         fs.readdir(directoryPath, function (err, files) {
             //handling error
             if (err) {
                 return console.log('Unable to scan directory: ' + err);
             }
             if (files.length != 0) {
-                var timeout = 600000
                 //listing all files using forEach
                 files.forEach(function (file) {
                     // Do whatever you want to do with the file
                     var logs = fs.readFileSync(`${directoryPath}/${file}`);
-                    logs = JSON.parse(logs);
-                    if (logs.length != 0) {
+                    if (isEmpty(logs)) {
+                        logs = JSON.parse(logs);
                         logs.forEach(log => {
                             var message = new Buffer(JSON.stringify(log));
                             var key = 'Key' + counter;
@@ -73,18 +72,26 @@ exports.buildProducer = function (Kafka, producer_opts, topicName, shutdown) {
                                 console.error(err);
                             }
                         });
+                        fs.unlink(`${directoryPath}/${file}`, function (err) {
+                            if (err) throw err;
+                            // if no error, file has been deleted successfully
+                            console.log(`File ${file} deleted!`);
+                        });
                     }
-                    fs.unlink(`${directoryPath}/${file}`, function (err) {
-                        if (err) throw err;
-                        // if no error, file has been deleted successfully
-                        console.log(`File ${file} deleted!`);
-                    });
                 });
             }
             setTimeout(function () {
                 sendMessages();
             }, timeout);
         });
+    }
+
+    function isEmpty(obj) {
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
     }
 
     // Register callback invoked when producer has connected
