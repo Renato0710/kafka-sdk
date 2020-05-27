@@ -45,18 +45,19 @@ exports.buildProducer = function (Kafka, producer_opts, topicName, shutdown) {
     });
 
     function sendMessages(counter, topic, partition) {
-        var timeout = 600000
+        var timeout = 6000
         fs.readdir(directoryPath, function (err, files) {
             //handling error
             if (err) {
                 return console.log('Unable to scan directory: ' + err);
             }
+            console.log(files);
             if (files.length != 0) {
                 //listing all files using forEach
                 files.forEach(function (file) {
                     // Do whatever you want to do with the file
                     var logs = fs.readFileSync(`${directoryPath}/${file}`);
-                    if (isEmpty(logs)) {
+                    if (!isEmpty(logs)) {
                         logs = JSON.parse(logs);
                         logs.forEach(log => {
                             var message = new Buffer(JSON.stringify(log));
@@ -66,7 +67,6 @@ exports.buildProducer = function (Kafka, producer_opts, topicName, shutdown) {
                             try {
                                 producer.produce(topic, partition, message, key);
                                 counter++;
-                                fs.unlink()
                             } catch (err) {
                                 console.error('Failed sending message ' + message);
                                 console.error(err);
