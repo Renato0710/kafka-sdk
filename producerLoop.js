@@ -66,7 +66,6 @@ exports.buildProducer = function (Kafka, producer_opts, topicName, shutdown) {
                             try {
                                 producer.produce(topic, partition, message, key);
                                 counter++;
-                                fs.unlink()
                             } catch (err) {
                                 console.error('Failed sending message ' + message);
                                 console.error(err);
